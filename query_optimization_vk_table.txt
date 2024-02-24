@@ -1,0 +1,140 @@
+explain analyze select 
+	id, 
+	url, 
+	_size, 
+	owner_id,
+	(select main_photo_id from users where media.owner_id = users.id) as main_photo_id ,
+	(select first_name from users where media.owner_id = users.id) as first_name ,
+	(select last_name from users where media.owner_id = users.id) as last_name ,
+ 	(select url from media m where m.id = (select main_photo_id from users where media.owner_id = users.id)) as url_main_photo
+from media
+where media_type_id = (select id from media_types where name = 'video')
+order by main_photo_id desc
+limit 10;
+
+Limit  (cost=148.82..491.51 rows=10 width=528) (actual time=0.182..0.400 rows=10 loops=1)
+  InitPlan 6 (returns $5)
+    ->  Index Scan using media_types_name_key on media_types  (cost=0.15..8.17 rows=1 width=4) (actual time=0.030..0.031 rows=1 loops=1)
+          Index Cond: ((name)::text = 'video'::text)
+  ->  Result  (cost=140.65..723.22 rows=17 width=528) (actual time=0.181..0.397 rows=10 loops=1)
+        ->  Sort  (cost=140.65..140.70 rows=17 width=34) (actual time=0.152..0.153 rows=10 loops=1)
+              Sort Key: ((SubPlan 1)) DESC
+              Sort Method: quicksort  Memory: 25kB
+              ->  Seq Scan on media  (cost=0.00..140.31 rows=17 width=34) (actual time=0.065..0.141 rows=11 loops=1)
+                    Filter: (media_type_id = $5)
+                    Rows Removed by Filter: 39
+                    SubPlan 1
+                      ->  Bitmap Heap Scan on users  (cost=4.15..8.16 rows=1 width=4) (actual time=0.004..0.004 rows=1 loops=11)
+                            Recheck Cond: (media.owner_id = id)
+                            Heap Blocks: exact=11
+                            ->  Bitmap Index Scan on users_pkey  (cost=0.00..4.15 rows=1 width=0) (actual time=0.002..0.002 rows=1 loops=11)
+                                  Index Cond: (id = media.owner_id)
+        SubPlan 2
+          ->  Bitmap Heap Scan on users users_1  (cost=4.15..8.16 rows=1 width=7) (actual time=0.002..0.002 rows=1 loops=10)
+                Recheck Cond: (media.owner_id = id)
+                Heap Blocks: exact=10
+                ->  Bitmap Index Scan on users_pkey  (cost=0.00..4.15 rows=1 width=0) (actual time=0.001..0.001 rows=1 loops=10)
+                      Index Cond: (id = media.owner_id)
+        SubPlan 3
+          ->  Bitmap Heap Scan on users users_2  (cost=4.15..8.16 rows=1 width=7) (actual time=0.002..0.002 rows=1 loops=10)
+                Recheck Cond: (media.owner_id = id)
+                Heap Blocks: exact=10
+                ->  Bitmap Index Scan on users_pkey  (cost=0.00..4.15 rows=1 width=0) (actual time=0.001..0.001 rows=1 loops=10)
+                      Index Cond: (id = media.owner_id)
+        SubPlan 5
+          ->  Seq Scan on media m  (cost=8.16..9.78 rows=1 width=18) (actual time=0.009..0.010 rows=1 loops=10)
+                Filter: (id = $4)
+                Rows Removed by Filter: 49
+                InitPlan 4 (returns $4)
+                  ->  Bitmap Heap Scan on users users_3  (cost=4.15..8.16 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=10)
+                        Recheck Cond: (media.owner_id = id)
+                        Heap Blocks: exact=10
+                        ->  Bitmap Index Scan on users_pkey  (cost=0.00..4.15 rows=1 width=0) (actual time=0.001..0.001 rows=1 loops=10)
+                              Index Cond: (id = media.owner_id)
+Planning Time: 0.516 ms
+Execution Time: 0.534 ms
+
+
+explain analyze select 
+  users_media.*, 
+  m.url 
+from 
+  (
+    select 
+      m.id, 
+      m.url, 
+      m._size,
+      u.id,
+      u.first_name, 
+      u.last_name, 
+      u.main_photo_id 
+    from 
+      media m 
+      join users u on u.id = m.owner_id 
+      join media_types mt on m.media_type_id = mt.id 
+    where 
+      mt.name = 'video' 
+    order by 
+      main_photo_id desc 
+    limit 
+      10
+  ) as users_media 
+  join media m on users_media.main_photo_id = m.id 
+order by 
+  main_photo_id desc;
+
+
+Sort  (cost=12.59..12.59 rows=1 width=66) (actual time=0.281..0.286 rows=10 loops=1)
+  Sort Key: u.main_photo_id DESC
+  Sort Method: quicksort  Memory: 26kB
+  ->  Hash Join  (cost=10.88..12.58 rows=1 width=66) (actual time=0.226..0.265 rows=10 loops=1)
+        Hash Cond: (m.id = u.main_photo_id)
+        ->  Seq Scan on media m  (cost=0.00..1.50 rows=50 width=22) (actual time=0.024..0.043 rows=50 loops=1)
+        ->  Hash  (cost=10.87..10.87 rows=1 width=48) (actual time=0.185..0.188 rows=10 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              ->  Limit  (cost=10.85..10.86 rows=1 width=48) (actual time=0.171..0.176 rows=10 loops=1)
+                    ->  Sort  (cost=10.85..10.86 rows=1 width=48) (actual time=0.170..0.173 rows=10 loops=1)
+                          Sort Key: u.main_photo_id DESC
+                          Sort Method: quicksort  Memory: 26kB
+                          ->  Nested Loop  (cost=0.30..10.84 rows=1 width=48) (actual time=0.042..0.155 rows=11 loops=1)
+                                ->  Nested Loop  (cost=0.16..7.20 rows=1 width=30) (actual time=0.032..0.106 rows=11 loops=1)
+                                      ->  Seq Scan on media m_1  (cost=0.00..1.50 rows=50 width=34) (actual time=0.007..0.032 rows=50 loops=1)
+                                      ->  Memoize  (cost=0.16..1.14 rows=1 width=4) (actual time=0.001..0.001 rows=0 loops=50)
+                                            Cache Key: m_1.media_type_id
+                                            Cache Mode: logical
+                                            Hits: 47  Misses: 3  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                                            ->  Index Scan using media_types_pkey on media_types mt  (cost=0.15..1.13 rows=1 width=4) (actual time=0.006..0.006 rows=0 loops=3)
+                                                  Index Cond: (id = m_1.media_type_id)
+                                                  Filter: ((name)::text = 'video'::text)
+                                                  Rows Removed by Filter: 1
+                                ->  Index Scan using users_pkey on users u  (cost=0.14..3.43 rows=1 width=22) (actual time=0.003..0.003 rows=1 loops=11)
+                                      Index Cond: (id = m_1.owner_id)
+Planning Time: 0.616 ms
+Execution Time: 0.401 ms
+
+
+ 
+  SELECT indexname FROM pg_indexes WHERE tablename = 'users';
+  SELECT indexname FROM pg_indexes WHERE tablename = 'media';
+	
+ CREATE INDEX media_owner_id_fk ON media (owner_id);
+ CREATE INDEX media_media_type_id_fk ON media (media_type_id);
+ CREATE INDEX users_main_photo_id_fk ON users (main_photo_id); 
+
+SET enable_seqscan TO OFF;
+
+  ->  Limit  (cost=20.42..20.42 rows=1 width=48) (actual time=0.143..0.144 rows=10 loops=1)
+        ->  Sort  (cost=20.42..20.42 rows=1 width=48) (actual time=0.141..0.142 rows=10 loops=1)
+              Sort Key: u.main_photo_id DESC
+              Sort Method: quicksort  Memory: 26kB
+              ->  Nested Loop  (cost=0.43..20.41 rows=1 width=48) (actual time=0.087..0.121 rows=11 loops=1)
+                    ->  Nested Loop  (cost=0.29..16.78 rows=1 width=30) (actual time=0.076..0.090 rows=11 loops=1)
+                          ->  Index Scan using media_types_name_key on media_types mt  (cost=0.15..8.17 rows=1 width=4) (actual time=0.037..0.037 rows=1 loops=1)
+                                Index Cond: ((name)::text = 'video'::text)
+                          ->  Index Scan using media_media_type_id_fk on media m_1  (cost=0.14..8.44 rows=17 width=34) (actual time=0.035..0.048 rows=11 loops=1)
+                                Index Cond: (media_type_id = mt.id)
+                    ->  Index Scan using users_pkey on users u  (cost=0.14..3.43 rows=1 width=22) (actual time=0.002..0.002 rows=1 loops=11)
+                          Index Cond: (id = m_1.owner_id)
+  ->  Index Scan Backward using media_pkey on media m  (cost=0.14..12.89 rows=50 width=22) (actual time=0.055..0.063 rows=46 loops=1)
+Planning Time: 1.278 ms
+Execution Time: 0.281 ms

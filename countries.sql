@@ -1,0 +1,18 @@
+insert into countries (country_name) values ('Ukraine');
+insert into countries (country_name) values ('Czech Republic');
+insert into countries (country_name) values ('Russia');
+insert into countries (country_name) values ('China');
+insert into countries (country_name) values ('Brazil');
+insert into countries (country_name) values ('Philippines');
+insert into countries (country_name) values ('Pakistan');
+insert into countries (country_name) values ('Malaysia');
+insert into countries (country_name) values ('Indonesia');
+insert into countries (country_name) values ('Portugal');
+insert into countries (country_name) values ('Kazakhstan');
+insert into countries (country_name) values ('Lithuania');
+insert into countries (country_name) values ('Panama');
+insert into countries (country_name) values ('United States');
+insert into countries (country_name) values ('Venezuela');
+insert into countries (country_name) values ('Armenia');
+insert into countries (country_name) values ('Sweden');
+insert into countries (country_name) values ('Colombia');

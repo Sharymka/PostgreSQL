@@ -1,0 +1,65 @@
+insert into store_branches (branch_name, address_id) values ('Branch ¹1', 105);
+insert into store_branches (branch_name, address_id) values ('Branch ¹2', 83);
+insert into store_branches (branch_name, address_id) values ('Branch ¹3', 180);
+insert into store_branches (branch_name, address_id) values ('Branch ¹4', 56);
+insert into store_branches (branch_name, address_id) values ('Branch ¹5', 172);
+insert into store_branches (branch_name, address_id) values ('Branch ¹6', 188);
+insert into store_branches (branch_name, address_id) values ('Branch ¹7', 85);
+insert into store_branches (branch_name, address_id) values ('Branch ¹8', 149);
+insert into store_branches (branch_name, address_id) values ('Branch ¹9', 189);
+insert into store_branches (branch_name, address_id) values ('Branch ¹10', 127);
+insert into store_branches (branch_name, address_id) values ('Branch ¹11', 161);
+insert into store_branches (branch_name, address_id) values ('Branch ¹12', 65);
+insert into store_branches (branch_name, address_id) values ('Branch ¹13', 140);
+insert into store_branches (branch_name, address_id) values ('Branch ¹14', 162);
+insert into store_branches (branch_name, address_id) values ('Branch ¹15', 135);
+insert into store_branches (branch_name, address_id) values ('Branch ¹16', 36);
+insert into store_branches (branch_name, address_id) values ('Branch ¹17', 26);
+insert into store_branches (branch_name, address_id) values ('Branch ¹18', 150);
+insert into store_branches (branch_name, address_id) values ('Branch ¹19', 117);
+insert into store_branches (branch_name, address_id) values ('Branch ¹20', 33);
+
+insert into store_branches (branch_name, address_id) values ('Branch ¹21', 34);
+insert into store_branches (branch_name, address_id) values ('Branch ¹22', 8);
+insert into store_branches (branch_name, address_id) values ('Branch ¹23', 48);
+insert into store_branches (branch_name, address_id) values ('Branch ¹24', 6);
+insert into store_branches (branch_name, address_id) values ('Branch ¹25', 12);
+insert into store_branches (branch_name, address_id) values ('Branch ¹26', 18);
+insert into store_branches (branch_name, address_id) values ('Branch ¹27', 9);
+insert into store_branches (branch_name, address_id) values ('Branch ¹28', 139);
+insert into store_branches (branch_name, address_id) values ('Branch ¹29', 199);
+insert into store_branches (branch_name, address_id) values ('Branch ¹30', 2);
+
+insert into store_branches (branch_name, address_id) values ('Branch ¹31', 10);
+insert into store_branches (branch_name, address_id) values ('Branch ¹32', 7);
+insert into store_branches (branch_name, address_id) values ('Branch ¹33', 14);
+insert into store_branches (branch_name, address_id) values ('Branch ¹34', 39);
+insert into store_branches (branch_name, address_id) values ('Branch ¹35', 16);
+insert into store_branches (branch_name, address_id) values ('Branch ¹36', 75);
+insert into store_branches (branch_name, address_id) values ('Branch ¹37', 25);
+insert into store_branches (branch_name, address_id) values ('Branch ¹38', 44);
+insert into store_branches (branch_name, address_id) values ('Branch ¹39', 1);
+insert into store_branches (branch_name, address_id) values ('Branch ¹40', 66);
+
+
+insert into store_branches (branch_name, address_id) values ('Branch ¹41', 175);
+insert into store_branches (branch_name, address_id) values ('Branch ¹42', 98);
+insert into store_branches (branch_name, address_id) values ('Branch ¹43', 157);
+insert into store_branches (branch_name, address_id) values ('Branch ¹44', 59);
+insert into store_branches (branch_name, address_id) values ('Branch ¹45', 68);
+insert into store_branches (branch_name, address_id) values ('Branch ¹46', 153);
+insert into store_branches (branch_name, address_id) values ('Branch ¹47', 69);
+insert into store_branches (branch_name, address_id) values ('Branch ¹48', 113);
+insert into store_branches (branch_name, address_id) values ('Branch ¹49', 122);
+insert into store_branches (branch_name, address_id) values ('Branch ¹50', 115);
+
+insert into store_branches (branch_name, address_id) values ('Branch ¹51', 123);
+insert into store_branches (branch_name, address_id) values ('Branch ¹52', 133);
+insert into store_branches (branch_name, address_id) values ('Branch ¹53', 171);
+insert into store_branches (branch_name, address_id) values ('Branch ¹54', 49);
+insert into store_branches (branch_name, address_id) values ('Branch ¹55', 71);
+insert into store_branches (branch_name, address_id) values ('Branch ¹56', 87);
+insert into store_branches (branch_name, address_id) values ('Branch ¹57', 99);
+insert into store_branches (branch_name, address_id) values ('Branch ¹58', 159);
+insert into store_branches (branch_name, address_id) values ('Branch ¹59', 174);
+insert into store_branches (branch_name, address_id) values ('Branch ¹60', 183);
